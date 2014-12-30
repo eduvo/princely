@@ -30,7 +30,7 @@ module Princely
         :layout => false,
         :template => File.join(controller_path, action_name),
         :relative_paths => true,
-        :server_flag => true,
+        :server_flag => false,
         :media => nil,
         :javascript_flag => false
       }.merge(options)

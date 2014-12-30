@@ -12,7 +12,7 @@ module Princely
         :executable => Princely.executable,
         :log_file => nil,
         :logger => nil,
-        :server_flag => true,
+        :server_flag => false,
         :media => nil,
         :javascript_flag => false
       }.merge(options)
