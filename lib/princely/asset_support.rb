@@ -5,7 +5,13 @@ module Princely
       # Make all paths relative, on disk paths...
       html_string.gsub!(".com:/",".com/") # strip out bad attachment_fu URLs
       html_string.gsub!( /src=["']+([^:]+?)["']/i ) do |m|
-        asset_src = asset_path ? "#{asset_path}/#{$1}" : asset_file_path($1)
+        src_path = $1
+        if src_path =~ /^\/\//
+          asset_src = src_path.gsub(/^\/\//, 'http://')
+        else
+          asset_src = asset_path ? "#{asset_path}/#{src_path}" : asset_file_path(src_path)
+        end
+
         %Q{src="#{asset_src}"} # re-route absolute paths
       end
 
