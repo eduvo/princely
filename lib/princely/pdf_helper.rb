@@ -37,7 +37,7 @@ module Princely
 
       prince = Princely::Pdf.new(options.slice(:server_flag, :javascript_flag, :media))
       # Sets style sheets on PDF renderer
-      prince.add_style_sheets(*options[:stylesheets].map { |style| File.extname(style).blank? ? "#{style}.css" : style }.map { |style| asset_file_path(style) })
+      prince.add_style_sheets(*options[:stylesheets].map { |style| asset_file_path(style) })
 
       html_string = render_to_string(options.slice(:template, :layout, :handlers, :formats, :locals))
 
@@ -50,11 +50,6 @@ module Princely
         prince.pdf_from_string(html_string)
       end
     end
-
-    def asset_file_path(asset)
-      super asset.to_s.gsub('.css', '')
-    end
-    alias_method :stylesheet_file_path, :asset_file_path
 
     def make_and_send_pdf(pdf_name, options = {})
       options = {:disposition => 'attachment'}.merge(options)

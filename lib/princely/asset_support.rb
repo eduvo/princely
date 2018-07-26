@@ -33,5 +33,6 @@ module Princely
         asset
       end
     end
+    alias_method :stylesheet_file_path, :asset_file_path
   end
 end
