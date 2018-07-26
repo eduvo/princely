@@ -27,7 +27,7 @@ module Princely
         Rails.application.assets.find_asset(filename)&.filename
       elsif Rails.application.assets_manifest
         begin
-          Rails.public_path.join('assets', Rails.application.assets_manifest.assets.keys.detect { |k| k.include?(asset_name) })
+          Rails.public_path.join('assets', Rails.application.assets_manifest.assets.keys.detect { |k| k.include?(filename) })
         rescue TypeError
           nil
         end
