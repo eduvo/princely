@@ -26,11 +26,7 @@ module Princely
       if Rails.application.assets
         Rails.application.assets.find_asset(filename)&.filename
       elsif Rails.application.assets_manifest
-        begin
-          Rails.public_path.join('assets', Rails.application.assets_manifest.find_sources(filename).first)
-        rescue TypeError
-          nil
-        end
+        Rails.application.assets_manifest.find(filename).first&.filename
       end || asset
     end
     alias_method :stylesheet_file_path, :asset_file_path
