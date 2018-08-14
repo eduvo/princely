@@ -6,10 +6,13 @@ module Princely
       html_string.gsub!(".com:/",".com/") # strip out bad attachment_fu URLs
       html_string.gsub!( /src=["']+([^:]+?)["']/i ) do |m|
         src_path = $1
-        if src_path =~ /^\/\//
-          asset_src = src_path.gsub(/^\/\//, 'http://')
+
+        asset_src = if src_path =~ /^\/\//
+          src_path.gsub(/^\/\//, 'http://')
+        elsif src_path =~ %r{^/attachments/}
+          File.join Rails.application.config.action_controller.asset_host.call(src_path).to_s, src_path
         else
-          asset_src = asset_path ? "#{asset_path}/#{src_path}" : asset_file_path(src_path)
+          asset_path ? "#{asset_path}/#{src_path}" : asset_file_path(src_path)
         end
 
         %Q{src="#{asset_src}"} # re-route absolute paths
