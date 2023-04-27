@@ -85,6 +85,13 @@ module Princely
       end
     end
 
+    def pdf_from_list_to_file(input_file, output_file)
+      with_timeout do
+        pdf = initialize_pdf_from_file_list(input_file, output_file)
+        pdf.close
+      end
+    end
+
   protected
 
     def with_timeout(&block)
@@ -110,6 +117,22 @@ module Princely
       pdf = IO.popen(path, "w+")
       pdf.puts string
       pdf
+    end
+
+    def initialize_pdf_from_file_list(input_file, output_file, options = {})
+      options = {:log_command => true, :output_to_log_file => true}.merge(options)
+      path = exe_path
+      # Don't spew errors to the standard out...and set up to take IO
+      # as input and output
+      path << " --input-list=#{input_file}"
+      path << " --media=#{media}" if media
+      path << " --silent - -o #{output_file}"
+      path << " >> '#{log_file}' 2>> '#{log_file}'" if options[:output_to_log_file]
+
+      log_command path if options[:log_command]
+
+      # Actually call the prince command, and pass the entire data stream back.
+      IO.popen(path, "w+")
     end
 
     def log_command(path)
