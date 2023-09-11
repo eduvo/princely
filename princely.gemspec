@@ -33,6 +33,6 @@ Gem::Specification.new do |s|
   s.add_development_dependency('rake')
 
   # Automatically asign gem in the registry to the source repo
-  spec.metadata = { "github_repo" => "ssh://github.dev/eduvo/princely" }
+  s.metadata = { "github_repo" => "ssh://github.dev/eduvo/princely" }
 end
 
